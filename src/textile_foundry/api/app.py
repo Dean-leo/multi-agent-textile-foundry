@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from starlette.middleware.cors import CORSMiddleware
-from starlette.responses import Response
+from starlette.responses import RedirectResponse, Response
 
 from textile_foundry.api.persistence import persist_state
 from textile_foundry.api.schemas import (
@@ -173,11 +173,15 @@ def create_app(
             session.execute(text("SELECT 1"))
         return {"status": "ok"}
 
+    @app.get("/", include_in_schema=False)
+    def homepage() -> RedirectResponse:
+        return RedirectResponse(url="/app/", status_code=307)
+
     @app.post("/api/v1/runs", response_model=RunSummary, status_code=201)
     def create_run(payload: CreateRunRequest) -> RunSummary:
         state = run_request(
             payload.user_request,
-            offline=True,
+            offline=effective_settings.api_offline,
             max_revisions=payload.max_revisions,
             data_dir=effective_data_dir,
             settings=effective_settings,

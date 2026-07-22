@@ -34,3 +34,15 @@ GitHub 仓库保存和展示源代码，但不会自动运行 Python、数据库
 - 配置 HTTPS、超时、速率限制和费用上限。
 
 本项目尚未声称已经完成正式在线部署。
+
+## Render 演示部署
+
+仓库根目录的 `render.yaml` 定义了免费 Python Web Service：
+
+- 构建时安装项目依赖。
+- 启动前执行 Alembic 迁移。
+- Uvicorn 监听平台提供的 `$PORT`。
+- `/healthz` 用作健康检查。
+- `DEEPSEEK_API_KEY` 使用 `sync: false`，只允许在 Render 控制台录入，不写入仓库。
+
+免费服务适合个人演示，不是生产环境。当前 SQLite 数据在实例重建后可能丢失；需要持久历史时应切换到 PostgreSQL。

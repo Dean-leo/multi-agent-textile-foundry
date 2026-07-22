@@ -27,6 +27,9 @@ def test_health_and_request_id(tmp_path: Path) -> None:
 
 def test_web_workspace_is_served(tmp_path: Path) -> None:
     client = make_client(tmp_path)
+    root = client.get("/", follow_redirects=False)
+    assert root.status_code == 307
+    assert root.headers["location"] == "/app/"
     response = client.get("/app/")
     assert response.status_code == 200
     assert "TEXTILE FOUNDRY" in response.text
