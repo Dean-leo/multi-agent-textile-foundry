@@ -50,3 +50,9 @@ def test_redaction_removes_secret_values():
     assert "super-secret-token" not in output
     assert "Bearer-token" not in output
     assert "[REDACTED]" in output
+
+
+def test_deepseek_configuration_uses_provider_specific_secret():
+    settings = Settings(llm_provider="deepseek", deepseek_api_key="test-only")
+    settings.require_online_configuration()
+    assert settings.deepseek_model == "deepseek-v4-flash"

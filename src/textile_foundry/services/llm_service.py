@@ -126,10 +126,23 @@ def build_online_requirement_model(settings: Settings) -> RequirementModel:
         from langchain_openai import ChatOpenAI
     except ImportError as exc:  # pragma: no cover - dependency is installed in Phase 1
         raise ConfigurationError("在线模式缺少 langchain-openai 依赖。") from exc
+    api_key: str | None
+    base_url: str | None
+    model_name: str | None
+    if settings.llm_provider == "deepseek":
+        api_key = (
+            settings.deepseek_api_key.get_secret_value() if settings.deepseek_api_key else None
+        )
+        base_url = settings.deepseek_base_url
+        model_name = settings.deepseek_model
+    else:
+        api_key = settings.openai_api_key.get_secret_value() if settings.openai_api_key else None
+        base_url = settings.openai_base_url
+        model_name = settings.openai_model
     model = ChatOpenAI(
-        api_key=settings.openai_api_key.get_secret_value() if settings.openai_api_key else None,
-        base_url=settings.openai_base_url,
-        model=settings.openai_model,
+        api_key=api_key,
+        base_url=base_url,
+        model=model_name,
         timeout=settings.openai_timeout_seconds,
         max_retries=settings.openai_max_retries,
     )
