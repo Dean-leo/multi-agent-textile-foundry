@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: textile_foundry
+      POSTGRES_USER: textile
+      POSTGRES_PASSWORD: textile
+    ports:
+      - "5432:5432"
+    volumes:
+      - textile_foundry_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U textile -d textile_foundry"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  textile_foundry_pgdata:

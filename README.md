@@ -34,3 +34,17 @@ OPENAI_MAX_RETRIES=2
 ```
 
 架构、来源和项目限制分别见 `ARCHITECTURE.md`、`docs/DATA_SOURCES.md` 和 `PLANS.md`。
+
+## Phase 2 数据库
+
+数据库层使用 SQLAlchemy 2.x、Alembic 和 PostgreSQL；JSON 仍作为可审计 seed。当前环境没有 PostgreSQL 或 Docker，因此默认测试使用同一套迁移在 SQLite 上验证事务、约束、快照和幂等 seed；这不等同于真实 PostgreSQL 已启动验证。
+
+拥有 PostgreSQL 后，可通过官方 Docker 镜像启动本地数据库：
+
+```bash
+docker compose up -d postgres
+DATABASE_URL=postgresql+psycopg://textile:textile@localhost:5432/textile_foundry \
+  .venv/bin/python scripts/seed_database.py
+```
+
+Seed 命令不会打印连接 URL 或密码，重复执行不会重复插入基础数据。

@@ -16,12 +16,15 @@ dependencies = [
   "langgraph>=0.4,<2",
   "pydantic>=2.11,<3",
   "pydantic-settings>=2.9,<3",
+  "SQLAlchemy>=2.0,<3",
 ]
 
 [project.optional-dependencies]
 dev = [
   "jsonschema>=4.23,<5",
+  "alembic>=1.16,<2",
   "mypy>=1.15,<2",
+  "psycopg[binary]>=3.2,<4",
   "pytest>=8.3,<10",
   "pytest-cov>=6,<8",
   "ruff>=0.11,<1",
