@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "sources": [
+    {"source_id": "mock_phase1_fabric_specs", "title": "Phase 1 fabric specification fixtures", "publisher": "Multi-Agent Textile Foundry", "source_url": null, "retrieved_at": "2026-07-23", "license_or_terms": "Project-created mock data", "data_scope": "Offline test fixtures", "confidence_level": "mock", "is_mock": true, "notes": "Not laboratory or supplier data."},
+    {"source_id": "mock_phase1_cost_rates", "title": "Phase 1 cost rate fixtures", "publisher": "Multi-Agent Textile Foundry", "source_url": null, "retrieved_at": "2026-07-23", "license_or_terms": "Project-created mock data", "data_scope": "Offline cost routing tests", "confidence_level": "mock", "is_mock": true, "notes": "Not a quotation."}
+  ]
+}

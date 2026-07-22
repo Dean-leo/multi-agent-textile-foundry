@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "source_ids": ["mock_phase1_cost_rates"],
+  "is_mock": true,
+  "currency": "CNY",
+  "unit": "meter",
+  "effective_from": "2026-01-01",
+  "materials": [
+    {"id": "polyester", "rate": 28.0, "rate_unit": "kg", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "recycled_polyester", "rate": 32.0, "rate_unit": "kg", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "nylon", "rate": 40.0, "rate_unit": "kg", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "cotton", "rate": 24.0, "rate_unit": "kg", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "lyocell", "rate": 38.0, "rate_unit": "kg", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "elastane", "rate": 65.0, "rate_unit": "kg", "source_ids": ["mock_phase1_cost_rates"]}
+  ],
+  "yarn_processing": [{"id": "yarn_spinning", "rate": 6.0, "rate_unit": "kg", "source_ids": ["mock_phase1_cost_rates"]}],
+  "manufacturing": [
+    {"id": "knitting_interlock", "rate": 3.0, "rate_unit": "meter", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "knitting_jersey", "rate": 2.2, "rate_unit": "meter", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "weaving_plain", "rate": 3.5, "rate_unit": "meter", "source_ids": ["mock_phase1_cost_rates"]}
+  ],
+  "dyeing": [{"id": "dyeing_standard", "rate": 1.4, "rate_unit": "meter", "source_ids": ["mock_phase1_cost_rates"]}],
+  "finishing": [
+    {"id": "quick_dry", "rate": 1.2, "rate_unit": "meter", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "antibacterial", "rate": 1.8, "rate_unit": "meter", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "water_repellent", "rate": 1.6, "rate_unit": "meter", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "uv_protection", "rate": 1.0, "rate_unit": "meter", "source_ids": ["mock_phase1_cost_rates"]},
+    {"id": "softener", "rate": 0.7, "rate_unit": "meter", "source_ids": ["mock_phase1_cost_rates"]}
+  ],
+  "quality": {"rate": 0.3, "rate_unit": "meter", "source_ids": ["mock_phase1_cost_rates"]},
+  "waste_rate": 0.05
+}

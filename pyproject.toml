@@ -1,0 +1,57 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "multi-agent-textile-foundry"
+version = "0.1.0"
+description = "Offline-first LangGraph workflow for explainable textile planning estimates"
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Multi-Agent Textile Foundry contributors" }]
+dependencies = [
+  "langchain-core>=0.3,<2",
+  "langchain-openai>=0.3,<2",
+  "langgraph>=0.4,<2",
+  "pydantic>=2.11,<3",
+  "pydantic-settings>=2.9,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "jsonschema>=4.23,<5",
+  "mypy>=1.15,<2",
+  "pytest>=8.3,<10",
+  "pytest-cov>=6,<8",
+  "ruff>=0.11,<1",
+]
+
+[project.scripts]
+textile-foundry = "textile_foundry.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/textile_foundry"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "RUF", "SIM"]
+ignore = ["RUF001"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+packages = ["textile_foundry"]
+mypy_path = "src"
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+addopts = "--strict-markers --strict-config --cov=src/textile_foundry --cov-report=term-missing --cov-fail-under=85"
+testpaths = ["tests"]

@@ -7,13 +7,15 @@
 | 阶段 | 状态 | 目标 | 进入条件 | 停止点 |
 |---|---|---|---|---|
 | Phase 0：环境与架构 | `COMPLETED` | 环境审计、来源调研、架构与数据契约 | 无 | 文档验收并提交，不实现业务代码 |
-| Phase 1：CLI 与 LangGraph 核心 | `READY` | 离线可测的三节点状态机、JSON 知识库、CLI | 用户明确开启 Phase 1 | Ruff、mypy、pytest 全部通过后停止 |
-| Phase 2：PostgreSQL 数据层 | `BLOCKED` | 可追溯、版本化、可迁移的数据与运行记录 | Phase 1 验收通过且用户明确开启 | 迁移与 seed 测试通过后停止 |
+| Phase 1：CLI 与 LangGraph 核心 | `COMPLETED` | 离线可测的三节点状态机、JSON 知识库、CLI | 用户已明确开启；验收通过 | 已停止；不自动进入 Phase 2 |
+| Phase 2：PostgreSQL 数据层 | `READY` | 可追溯、版本化、可迁移的数据与运行记录 | Phase 1 验收通过且用户明确开启 | 用户明确开启后才开始 |
 | Phase 3：API 服务 | `BLOCKED` | 用 FastAPI 适配已验证核心引擎 | Phase 2 验收通过且用户明确开启 | API 集成测试通过后停止 |
 | Phase 4：Web 产品 | `BLOCKED` | Apple 风格、无障碍、可解释的产品界面 | Phase 3 验收通过且用户明确开启 | 浏览器验收通过后停止 |
 | Phase 5：GitHub、CI/CD 与部署 | `BLOCKED` | 公开仓库、CI、部署与在线验证 | 前置阶段通过且用户明确开启 | 远端和线上证据齐全后停止 |
 
-Phase 0 于 2026-07-23 完成。Phase 1 仅进入 `READY`，本次没有自动开始。
+Phase 0 于 2026-07-23 完成。
+
+Phase 1 于 2026-07-23 完成，验收报告见 `docs/PHASE1_REPORT.md`。Phase 2 仅进入 `READY`，本次没有自动开始。
 
 ## Phase 0：环境审计、调研与架构设计
 

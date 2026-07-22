@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "source_ids": ["mock_phase1_fabric_specs"],
+  "is_mock": true,
+  "materials": [
+    {"id": "polyester", "name": "聚酯纤维", "functions": ["quick_dry", "durability"], "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "recycled_polyester", "name": "再生聚酯", "functions": ["quick_dry", "recycled_content"], "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "nylon", "name": "锦纶", "functions": ["durability", "soft_hand"], "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "cotton", "name": "棉", "functions": ["soft_hand", "breathability"], "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "lyocell", "name": "莱赛尔", "functions": ["soft_hand", "breathability"], "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "elastane", "name": "氨纶", "functions": ["stretch"], "source_ids": ["mock_phase1_fabric_specs"]}
+  ],
+  "structures": [
+    {"id": "knitted_interlock", "name": "双面针织", "category": "knitted", "areal_density_gsm": 180, "mass_kg_per_meter": 0.22, "manufacturing_process_id": "knitting_interlock", "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "knitted_jersey", "name": "单面针织", "category": "knitted", "areal_density_gsm": 145, "mass_kg_per_meter": 0.18, "manufacturing_process_id": "knitting_jersey", "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "woven_plain", "name": "平纹机织", "category": "woven", "areal_density_gsm": 110, "mass_kg_per_meter": 0.15, "manufacturing_process_id": "weaving_plain", "source_ids": ["mock_phase1_fabric_specs"]}
+  ],
+  "finishes": [
+    {"id": "quick_dry", "name": "吸湿速干整理", "functions": ["quick_dry"], "compatible_categories": ["knitted", "woven"], "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "antibacterial", "name": "抗菌整理", "functions": ["antibacterial"], "compatible_categories": ["knitted", "woven"], "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "water_repellent", "name": "防泼水整理", "functions": ["water_repellent"], "compatible_categories": ["knitted", "woven"], "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "uv_protection", "name": "防紫外整理", "functions": ["uv_protection"], "compatible_categories": ["knitted", "woven"], "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "softener", "name": "柔软整理", "functions": ["soft_hand"], "compatible_categories": ["knitted", "woven"], "source_ids": ["mock_phase1_fabric_specs"]}
+  ],
+  "processes": [
+    {"id": "yarn_spinning", "name": "纱线加工", "kind": "yarn", "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "knitting_interlock", "name": "双面针织加工", "kind": "manufacturing", "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "knitting_jersey", "name": "单面针织加工", "kind": "manufacturing", "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "weaving_plain", "name": "平纹机织加工", "kind": "manufacturing", "source_ids": ["mock_phase1_fabric_specs"]},
+    {"id": "dyeing_standard", "name": "常规染色", "kind": "dyeing", "source_ids": ["mock_phase1_fabric_specs"]}
+  ],
+  "compatibility_rules": [
+    {"category": "knitted", "finish_ids": ["quick_dry", "antibacterial", "water_repellent", "uv_protection", "softener"]},
+    {"category": "woven", "finish_ids": ["quick_dry", "antibacterial", "water_repellent", "uv_protection", "softener"]}
+  ]
+}
