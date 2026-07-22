@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Multi-Agent Textile Foundry 面料企划工作台" />
+  <title>Textile Foundry · 面料企划工作台</title>
+  <link rel="stylesheet" href="/app/styles.css" />
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar"><div class="mark"><span class="dot"></span><span>TEXTILE FOUNDRY</span></div><span class="badge">离线估算</span></header>
+    <section class="hero"><p class="eyebrow">柔性供应链 · 设计编排</p><h1>把一个想法，织成<br><em>可解释的方案。</em></h1><p class="lede">从需求解析到工艺组合与成本拆解，三步看清一款面料如何被设计出来。</p></section>
+    <section class="workspace">
+      <form id="run-form" class="card request-card">
+        <div class="card-head"><div><span class="step">01</span><h2>描述你的面料</h2></div><span class="hint">中文即可</span></div>
+        <textarea id="request" maxlength="5000" required>开发一款适用于夏季户外、成本控制在15元/米以内的速干抗菌针织面料。</textarea>
+        <div class="form-foot"><span class="privacy">本地规则引擎 · 不发送内容</span><button type="submit">开始设计 <span>→</span></button></div>
+      </form>
+      <section id="result" class="card result-card empty"><div class="empty-icon">✦</div><h2>等待一个设计任务</h2><p>输入需求后，这里会呈现需求、工艺和成本的完整决策链。</p></section>
+    </section>
+    <footer><span>估算结果需要打样、检测与真实报价验证。</span><a href="/docs" target="_blank">API 文档 ↗</a></footer>
+  </main>
+  <script src="/app/app.js"></script>
+</body>
+</html>

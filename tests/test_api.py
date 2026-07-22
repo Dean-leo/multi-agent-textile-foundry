@@ -25,6 +25,13 @@ def test_health_and_request_id(tmp_path: Path) -> None:
     assert response.headers["X-Request-ID"] == "test-request"
 
 
+def test_web_workspace_is_served(tmp_path: Path) -> None:
+    client = make_client(tmp_path)
+    response = client.get("/app/")
+    assert response.status_code == 200
+    assert "TEXTILE FOUNDRY" in response.text
+
+
 def test_create_and_read_run(tmp_path: Path) -> None:
     client = make_client(tmp_path)
     response = client.post(

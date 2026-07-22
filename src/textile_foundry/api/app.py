@@ -8,6 +8,7 @@ from uuid import uuid4
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 from starlette.middleware.cors import CORSMiddleware
 from starlette.responses import Response
@@ -107,6 +108,7 @@ def create_app(
     settings: Settings | None = None,
     initialize_schema: bool = False,
     allowed_origins: list[str] | None = None,
+    web_dir: Path | None = None,
 ) -> FastAPI:
     """Build the API app; migrations remain an explicit deployment operation."""
     effective_settings = settings or Settings()
@@ -125,6 +127,9 @@ def create_app(
     app.state.database = database
     app.state.data_dir = effective_data_dir
     app.state.settings = effective_settings
+    static_dir = web_dir or Path(__file__).resolve().parents[3] / "web"
+    if static_dir.is_dir():
+        app.mount("/app", StaticFiles(directory=static_dir, html=True), name="web")
 
     @app.middleware("http")
     async def request_context(request: Request, call_next: Callable[..., Any]) -> Response:

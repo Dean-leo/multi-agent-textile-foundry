@@ -10,7 +10,7 @@
 | Phase 1：CLI 与 LangGraph 核心 | `COMPLETED` | 离线可测的三节点状态机、JSON 知识库、CLI | 用户已明确开启；验收通过 | 已停止；不自动进入 Phase 2 |
 | Phase 2：PostgreSQL 数据层 | `COMPLETED` | 可追溯、版本化、可迁移的数据与运行记录 | Phase 1 验收通过且用户已开启 | 已停止；真实 PostgreSQL 需在可用实例上复核 |
 | Phase 3：API 服务 | `COMPLETED` | 用 FastAPI 适配已验证核心引擎 | Phase 2 代码与迁移验收通过 | 已停止；不自动进入 Phase 4 |
-| Phase 4：Web 产品 | `READY` | Apple 风格、无障碍、可解释的产品界面 | Phase 3 验收通过且用户明确开启 | 用户明确开启后才开始 |
+| Phase 4：Web 产品 | `IN_PROGRESS` | Apple 风格、无障碍、可解释的产品界面 | Phase 3 验收通过 | MVP 工作台已实现；完成增强后停止 |
 | Phase 5：GitHub、CI/CD 与部署 | `BLOCKED` | 公开仓库、CI、部署与在线验证 | 前置阶段通过且用户明确开启 | 远端和线上证据齐全后停止 |
 
 Phase 0 于 2026-07-23 完成。
@@ -19,7 +19,9 @@ Phase 1 于 2026-07-23 完成，验收报告见 `docs/PHASE1_REPORT.md`。
 
 Phase 2 于 2026-07-23 完成，验收报告见 `docs/PHASE2_REPORT.md`。
 
-Phase 3 于 2026-07-23 完成，验收报告见 `docs/PHASE3_REPORT.md`。Phase 4 仅进入 `READY`，本次没有自动开始。
+Phase 3 于 2026-07-23 完成，验收报告见 `docs/PHASE3_REPORT.md`。
+
+Phase 4 已开始，当前为无 Node.js 依赖的静态 MVP 工作台；增强项和真实部署仍未完成。
 
 ## Phase 0：环境审计、调研与架构设计
 
