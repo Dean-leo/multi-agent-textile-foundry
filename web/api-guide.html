@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>使用说明 · Textile Foundry</title>
+  <link rel="stylesheet" href="/app/styles.css" />
+  <link rel="stylesheet" href="/app/guide.css" />
+</head>
+<body>
+  <main class="shell guide">
+    <header class="topbar"><a class="mark" href="/app/"><span class="dot"></span><span>TEXTILE FOUNDRY</span></a><nav><a href="/app/">返回工作台</a><a href="/api-docs">技术调试页</a></nav></header>
+    <section class="hero compact"><p class="eyebrow">全中文使用说明</p><h1>从一句需求，<br><em>到一份可解释方案。</em></h1><p class="lede">普通用户使用网页即可；开发者可以通过 HTTP API 接入其他软件。两种方式调用的是同一套核心逻辑。</p></section>
+
+    <section class="guide-block"><span class="step">普通用户</span><h2>网页怎么用</h2><ol><li>打开工作台，在输入框写用途、功能、面料类型和预算。</li><li>点击“开始设计”，等待需求解析、工艺设计和成本计算。</li><li>查看推荐配方、成本和修订次数。结果只是估算，下一步仍需打样和报价。</li></ol><div class="example"><strong>推荐写法</strong><code>开发一款适用于夏季户外、成本控制在15元/米以内的速干抗菌针织面料。</code></div></section>
+
+    <section class="guide-block"><span class="step">系统逻辑</span><h2>DeepSeek 到底做什么</h2><div class="flow"><div><b>1</b><strong>DeepSeek</strong><small>理解自然语言，提取用途、功能和预算</small></div><i>→</i><div><b>2</b><strong>Python 设计</strong><small>只从本地知识库允许的材料和工艺中选择</small></div><i>→</i><div><b>3</b><strong>Python 核价</strong><small>确定性公式计算，不让大模型口算金额</small></div></div><p class="notice">网站访问者不需要、也不应该填写 DeepSeek 密钥。密钥只由网站管理员配置在 Vercel 的加密环境变量中。</p></section>
+
+    <section class="guide-block"><span class="step">开发者</span><h2>怎么调用本项目 API</h2><p>向下面的接口发送 JSON。将 <code>你的域名</code> 换成部署后的 Vercel 地址。</p><div class="code-block"><pre>curl -X POST "https://你的域名/api/v1/runs" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "user_request": "开发一款15元/米以内的速干抗菌针织面料。",
+    "max_revisions": 2
+  }'</pre></div><p>成功时返回：运行状态、结构化需求、工艺方案、成本明细、修订记录和数据来源。金额使用十进制定点字符串，避免浮点误差。</p></section>
+
+    <section class="guide-block"><span class="step">接口目录</span><h2>常用地址</h2><div class="endpoint"><code>POST /api/v1/runs</code><span>提交需求并立即返回完整方案</span></div><div class="endpoint"><code>GET /healthz</code><span>检查服务是否正常</span></div><div class="endpoint"><code>GET /api-docs</code><span>自动生成的交互式调试页面</span></div><div class="endpoint"><code>GET /api/v1/runs/{run_id}</code><span>数据库模式下查询历史；Vercel 无状态演示不保存历史</span></div></section>
+
+    <section class="guide-block"><span class="step">重要边界</span><h2>结果能不能直接生产</h2><p>不能。当前成本数据标记为 <code>is_mock: true</code>，性能功能也是规则和模型辅助建议。必须经过打样、实验检测、工艺工程师审核和真实供应商报价。</p></section>
+    <footer><span>遇到问题时，先访问 <code>/healthz</code>；再打开 <code>/api-docs</code> 检查请求格式。</span><a href="/app/">开始使用 →</a></footer>
+  </main>
+</body>
+</html>

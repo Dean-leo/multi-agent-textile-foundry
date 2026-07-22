@@ -6,10 +6,11 @@
   <meta name="description" content="Multi-Agent Textile Foundry 面料企划工作台" />
   <title>Textile Foundry · 面料企划工作台</title>
   <link rel="stylesheet" href="/app/styles.css" />
+  <link rel="stylesheet" href="/app/guide.css" />
 </head>
 <body>
   <main class="shell">
-    <header class="topbar"><div class="mark"><span class="dot"></span><span>TEXTILE FOUNDRY</span></div><span class="badge">离线估算</span></header>
+    <header class="topbar"><div class="mark"><span class="dot"></span><span>TEXTILE FOUNDRY</span></div><nav><a href="/docs">使用说明</a><a href="/api-docs">开发者 API</a><span class="badge">AI 协作估算</span></nav></header>
     <section class="hero"><p class="eyebrow">柔性供应链 · 设计编排</p><h1>把一个想法，织成<br><em>可解释的方案。</em></h1><p class="lede">从需求解析到工艺组合与成本拆解，三步看清一款面料如何被设计出来。</p></section>
     <section class="workspace">
       <form id="run-form" class="card request-card">
@@ -19,6 +20,7 @@
       </form>
       <section id="result" class="card result-card empty"><div class="empty-icon">✦</div><h2>等待一个设计任务</h2><p>输入需求后，这里会呈现需求、工艺和成本的完整决策链。</p></section>
     </section>
+    <section class="how"><p class="eyebrow">第一次使用</p><h2>不用懂模型，只需要说清楚三件事</h2><div class="how-grid"><article><span>01</span><h3>说用途</h3><p>例如夏季户外、运动服、家纺或工作服。</p></article><article><span>02</span><h3>说功能</h3><p>例如速干、抗菌、防晒、防泼水以及针织或机织。</p></article><article><span>03</span><h3>说预算</h3><p>尽量写成“15元/米以内”，系统才能自动判断是否需要降本重做。</p></article></div><p class="logic"><strong>系统如何工作：</strong>DeepSeek 负责理解你的中文需求 → Python 从允许的材料与工艺中设计 → Python 按明确费率计算成本 → 超预算时最多重新设计两次。</p></section>
     <footer><span>估算结果需要打样、检测与真实报价验证。</span><a href="/docs" target="_blank">API 文档 ↗</a></footer>
   </main>
   <script src="/app/app.js"></script>

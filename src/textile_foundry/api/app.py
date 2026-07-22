@@ -27,6 +27,7 @@ from textile_foundry.db.repository import DesignRunRepository
 from textile_foundry.db.session import Database
 from textile_foundry.exceptions import TextileFoundryError
 from textile_foundry.graph import run_request
+from textile_foundry.state import TextileState
 
 
 def _request_id(request: Request) -> str:
@@ -101,6 +102,34 @@ def _detail(run: DesignRun) -> RunDetail:
     )
 
 
+def _detail_from_state(state: TextileState) -> RunDetail:
+    requirements = state.get("parsed_requirements")
+    design = state.get("process_design")
+    breakdown = state.get("cost_breakdown")
+    return RunDetail(
+        run_id=state["run_id"],
+        status=str(state.get("status", "failed")),
+        revision_count=state.get("revision_count", 0),
+        max_revisions=state.get("max_revisions", 2),
+        cost_estimate=state.get("cost_estimate"),
+        target_cost_per_meter=state.get("target_cost_per_meter"),
+        is_mock=breakdown.is_mock if breakdown else None,
+        warnings=list(state.get("warnings", [])),
+        user_request=state["user_request"],
+        parsed_requirements=requirements.model_dump(mode="json") if requirements else None,
+        process_design=design.model_dump(mode="json") if design else None,
+        design_history=[item.model_dump(mode="json") for item in state.get("design_history", [])],
+        cost_breakdown=breakdown.model_dump(mode="json") if breakdown else None,
+        revision_feedback=[
+            item.model_dump(mode="json") for item in state.get("revision_feedback", [])
+        ],
+        errors=list(state.get("errors", [])),
+        data_source_ids=list(state.get("data_source_ids", [])),
+        model_provider=state.get("model_provider"),
+        model_name=state.get("model_name"),
+    )
+
+
 def create_app(
     *,
     database_url: str | None = None,
@@ -116,7 +145,20 @@ def create_app(
     if initialize_schema:
         Base.metadata.create_all(database.engine)
     effective_data_dir = data_dir or effective_settings.data_dir
-    app = FastAPI(title="Multi-Agent Textile Foundry API", version="0.1.0")
+    app = FastAPI(
+        title="柔性供应链多智能体编排引擎 API",
+        description=(
+            "将中文面料需求解析为结构化指标，生成工艺方案并进行确定性成本核算。"
+            "所有成本和性能结论均为估算，必须经过打样、检测和真实报价验证。"
+        ),
+        version="0.1.0",
+        docs_url="/api-docs",
+        redoc_url=None,
+        openapi_tags=[
+            {"name": "系统", "description": "健康检查与运行状态。"},
+            {"name": "面料方案", "description": "创建和查询面料企划任务。"},
+        ],
+    )
     if allowed_origins:
         app.add_middleware(
             CORSMiddleware,
@@ -167,7 +209,7 @@ def create_app(
         )
         return JSONResponse(status_code=exc.status_code, content=body.model_dump())
 
-    @app.get("/healthz")
+    @app.get("/healthz", tags=["系统"], summary="检查服务是否正常")
     def health() -> dict[str, str]:
         with database.session() as session:
             session.execute(text("SELECT 1"))
@@ -177,8 +219,22 @@ def create_app(
     def homepage() -> RedirectResponse:
         return RedirectResponse(url="/app/", status_code=307)
 
-    @app.post("/api/v1/runs", response_model=RunSummary, status_code=201)
-    def create_run(payload: CreateRunRequest) -> RunSummary:
+    @app.get("/docs", include_in_schema=False)
+    def chinese_docs() -> RedirectResponse:
+        return RedirectResponse(url="/app/api-guide.html", status_code=307)
+
+    @app.post(
+        "/api/v1/runs",
+        response_model=RunDetail,
+        status_code=201,
+        tags=["面料方案"],
+        summary="提交中文需求并生成面料方案",
+        description=(
+            "DeepSeek 在线模式只负责把自然语言解析为结构化需求；"
+            "候选过滤、兼容性验证、成本计算和超预算路由由确定性 Python 完成。"
+        ),
+    )
+    def create_run(payload: CreateRunRequest) -> RunDetail:
         state = run_request(
             payload.user_request,
             offline=effective_settings.api_offline,
@@ -186,15 +242,23 @@ def create_app(
             data_dir=effective_data_dir,
             settings=effective_settings,
         )
+        if not effective_settings.api_persist_runs:
+            return _detail_from_state(state)
         persist_state(database, state)
         with database.session() as session:
             run = DesignRunRepository().get_run(session, state["run_id"])
             assert run is not None
-            result = _summary(run)
+            result = _detail(run)
             result.warnings = list(state.get("warnings", []))
             return result
 
-    @app.get("/api/v1/runs/{run_id}", response_model=RunDetail)
+    @app.get(
+        "/api/v1/runs/{run_id}",
+        response_model=RunDetail,
+        tags=["面料方案"],
+        summary="查询已保存的运行详情",
+        description="仅在启用持久化数据库时可跨请求查询。Vercel 无状态演示不保存历史。",
+    )
     def get_run(run_id: str) -> RunDetail:
         with database.session() as session:
             run = DesignRunRepository().get_run(session, run_id)

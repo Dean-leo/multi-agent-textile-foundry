@@ -36,6 +36,7 @@ class Settings(BaseSettings):
     )
     deepseek_model: str = Field(default="deepseek-v4-flash", validation_alias="DEEPSEEK_MODEL")
     api_offline: bool = Field(default=True, validation_alias="TEXTILE_API_OFFLINE")
+    api_persist_runs: bool = Field(default=True, validation_alias="TEXTILE_API_PERSIST_RUNS")
     data_dir: Path = Field(default=Path("data"), validation_alias="TEXTILE_DATA_DIR")
     database_url: str = Field(
         default="sqlite+pysqlite:///./textile_foundry.db", validation_alias="DATABASE_URL"

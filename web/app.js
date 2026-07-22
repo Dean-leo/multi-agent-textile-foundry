@@ -20,8 +20,11 @@ form.addEventListener("submit", async (event) => {
     const response = await fetch("/api/v1/runs", {method: "POST", headers: {"Content-Type": "application/json"}, body: JSON.stringify({user_request: request.value})});
     const body = await response.json();
     if (!response.ok) throw new Error(body.error?.message || "请求失败");
-    const detailResponse = await fetch(`/api/v1/runs/${body.run_id}`);
-    const detail = detailResponse.ok ? await detailResponse.json() : null;
+    let detail = body.parsed_requirements ? body : null;
+    if (!detail) {
+      const detailResponse = await fetch(`/api/v1/runs/${body.run_id}`);
+      detail = detailResponse.ok ? await detailResponse.json() : null;
+    }
     renderRun(body, detail);
   } catch (error) {
     result.classList.remove("empty");

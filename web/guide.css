@@ -1,0 +1,172 @@
+:root {
+  color: #17324d;
+  background: #f6faff;
+}
+
+.topbar nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.topbar nav a,
+.mark {
+  color: #17324d;
+  text-decoration: none;
+}
+
+.how {
+  padding: 72px 0 44px;
+}
+
+.how h2,
+.guide-block h2 {
+  margin: 10px 0 24px;
+  font-size: 32px;
+  letter-spacing: -0.04em;
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.how-grid article,
+.guide-block {
+  padding: 26px;
+  background: #fff;
+  border-radius: 22px;
+  box-shadow: 0 2px 14px #17324d0a;
+}
+
+.how-grid article span,
+.flow b {
+  color: #4977ff;
+  font-weight: 700;
+}
+
+.how-grid h3 {
+  margin: 18px 0 8px;
+}
+
+.how-grid p,
+.guide-block p,
+.guide-block li,
+.flow small,
+.endpoint span {
+  color: #587087;
+}
+
+.logic,
+.notice {
+  margin-top: 18px;
+  padding: 18px;
+  color: #17324d !important;
+  background: #eef5ff;
+  border-radius: 14px;
+}
+
+.guide .compact {
+  padding-bottom: 38px;
+}
+
+.guide-block {
+  margin-bottom: 18px;
+}
+
+.guide-block ol {
+  padding-left: 22px;
+  line-height: 1.9;
+}
+
+.example {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  background: #f6faff;
+  border-radius: 14px;
+}
+
+.example code,
+.endpoint code {
+  color: #315bd8;
+}
+
+.flow {
+  display: flex;
+  align-items: stretch;
+  gap: 12px;
+}
+
+.flow div {
+  display: grid;
+  flex: 1;
+  gap: 8px;
+  padding: 18px;
+  background: #f6faff;
+  border-radius: 14px;
+}
+
+.flow i {
+  align-self: center;
+  color: #9cb5ff;
+}
+
+.code-block {
+  overflow: auto;
+  padding: 18px;
+  color: #f6faff;
+  background: #17324d;
+  border-radius: 14px;
+}
+
+.code-block pre {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
+.endpoint {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 0;
+  border-top: 1px solid #e2eaf3;
+}
+
+.endpoint span {
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  .topbar,
+  .topbar nav {
+    align-items: flex-start;
+  }
+
+  .topbar nav {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .how-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .flow {
+    flex-direction: column;
+  }
+
+  .flow i {
+    transform: rotate(90deg);
+  }
+
+  .endpoint {
+    flex-direction: column;
+  }
+
+  .endpoint span {
+    text-align: left;
+  }
+}

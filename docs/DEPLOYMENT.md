@@ -11,7 +11,8 @@
 随后访问：
 
 - 工作台：`http://127.0.0.1:8000/app/`
-- API 文档：`http://127.0.0.1:8000/docs`
+- 中文使用说明：`http://127.0.0.1:8000/docs`
+- 交互式 API 调试：`http://127.0.0.1:8000/api-docs`
 - 健康检查：`http://127.0.0.1:8000/healthz`
 
 `127.0.0.1` 只允许当前电脑访问。关闭运行该服务的进程后，网页也会停止。
@@ -35,14 +36,13 @@ GitHub 仓库保存和展示源代码，但不会自动运行 Python、数据库
 
 本项目尚未声称已经完成正式在线部署。
 
-## Render 演示部署
+## Vercel 演示部署
 
-仓库根目录的 `render.yaml` 定义了免费 Python Web Service：
+仓库根目录的 `app.py` 是 Vercel FastAPI 入口，`vercel.json` 确保数据和网页资源进入函数包：
 
-- 构建时安装项目依赖。
-- 启动前执行 Alembic 迁移。
-- Uvicorn 监听平台提供的 `$PORT`。
-- `/healthz` 用作健康检查。
-- `DEEPSEEK_API_KEY` 使用 `sync: false`，只允许在 Render 控制台录入，不写入仓库。
+- Vercel 自动识别 FastAPI，并将应用部署为 Python Function。
+- 在线演示设置 `TEXTILE_API_PERSIST_RUNS=false`，一次请求直接返回完整方案。
+- `DEEPSEEK_API_KEY` 只允许在 Vercel Environment Variables 中以 Sensitive 方式录入。
+- `TEXTILE_API_OFFLINE=false` 才会启用 DeepSeek；没有新密钥时保持离线模式。
 
-免费服务适合个人演示，不是生产环境。当前 SQLite 数据在实例重建后可能丢失；需要持久历史时应切换到 PostgreSQL。
+Vercel 官方不支持用 SQLite 保存持久数据，因此在线演示不提供跨请求历史查询。需要历史记录时，应连接外部 PostgreSQL，再把 `TEXTILE_API_PERSIST_RUNS` 改为 `true`。
