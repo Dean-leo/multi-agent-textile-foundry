@@ -106,6 +106,7 @@ def run_request(
     user_request: str,
     *,
     offline: bool = True,
+    max_revisions: int = 2,
     data_dir: Path | None = None,
     settings: Settings | None = None,
 ) -> TextileState:
@@ -113,5 +114,7 @@ def run_request(
     effective_settings = settings or Settings()
     effective_data_dir = (data_dir or effective_settings.data_dir).resolve()
     dependencies = build_dependencies(effective_data_dir, offline, effective_settings)
-    result = build_graph(dependencies).invoke(initial_state(user_request))
+    result = build_graph(dependencies).invoke(
+        initial_state(user_request, max_revisions=max_revisions)
+    )
     return cast(TextileState, result)

@@ -26,6 +26,9 @@ class Settings(BaseSettings):
     )
     openai_max_retries: int = Field(default=2, ge=0, le=5, validation_alias="OPENAI_MAX_RETRIES")
     data_dir: Path = Field(default=Path("data"), validation_alias="TEXTILE_DATA_DIR")
+    database_url: str = Field(
+        default="sqlite+pysqlite:///./textile_foundry.db", validation_alias="DATABASE_URL"
+    )
 
     def require_online_configuration(self) -> None:
         """Validate online-only fields without exposing their values."""

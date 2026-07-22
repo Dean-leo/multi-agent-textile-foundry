@@ -9,15 +9,17 @@
 | Phase 0：环境与架构 | `COMPLETED` | 环境审计、来源调研、架构与数据契约 | 无 | 文档验收并提交，不实现业务代码 |
 | Phase 1：CLI 与 LangGraph 核心 | `COMPLETED` | 离线可测的三节点状态机、JSON 知识库、CLI | 用户已明确开启；验收通过 | 已停止；不自动进入 Phase 2 |
 | Phase 2：PostgreSQL 数据层 | `COMPLETED` | 可追溯、版本化、可迁移的数据与运行记录 | Phase 1 验收通过且用户已开启 | 已停止；真实 PostgreSQL 需在可用实例上复核 |
-| Phase 3：API 服务 | `READY` | 用 FastAPI 适配已验证核心引擎 | Phase 2 代码与迁移验收通过且用户明确开启 | 用户明确开启后才开始 |
-| Phase 4：Web 产品 | `BLOCKED` | Apple 风格、无障碍、可解释的产品界面 | Phase 3 验收通过且用户明确开启 | 浏览器验收通过后停止 |
+| Phase 3：API 服务 | `COMPLETED` | 用 FastAPI 适配已验证核心引擎 | Phase 2 代码与迁移验收通过 | 已停止；不自动进入 Phase 4 |
+| Phase 4：Web 产品 | `READY` | Apple 风格、无障碍、可解释的产品界面 | Phase 3 验收通过且用户明确开启 | 用户明确开启后才开始 |
 | Phase 5：GitHub、CI/CD 与部署 | `BLOCKED` | 公开仓库、CI、部署与在线验证 | 前置阶段通过且用户明确开启 | 远端和线上证据齐全后停止 |
 
 Phase 0 于 2026-07-23 完成。
 
 Phase 1 于 2026-07-23 完成，验收报告见 `docs/PHASE1_REPORT.md`。
 
-Phase 2 于 2026-07-23 完成，验收报告见 `docs/PHASE2_REPORT.md`。Phase 3 仅进入 `READY`，本次没有自动开始。
+Phase 2 于 2026-07-23 完成，验收报告见 `docs/PHASE2_REPORT.md`。
+
+Phase 3 于 2026-07-23 完成，验收报告见 `docs/PHASE3_REPORT.md`。Phase 4 仅进入 `READY`，本次没有自动开始。
 
 ## Phase 0：环境审计、调研与架构设计
 
@@ -78,7 +80,8 @@ Phase 2 于 2026-07-23 完成，验收报告见 `docs/PHASE2_REPORT.md`。Phase 
 - FastAPI 仅作为核心引擎适配层，提供运行创建、状态、方案、成本、修订和来源查询。
 - 实现统一错误、请求 ID、超时、幂等键、事务、CORS 白名单和输入输出 Schema。
 - 禁止通过 Prompt 读取任意文件、执行代码或暴露内部秘密。
-- 验收：OpenAPI、健康检查和 API 集成测试通过。
+- 实现：`/healthz`、`POST /api/v1/runs`、`GET /api/v1/runs/{run_id}`，统一错误结构、请求 ID、可选 CORS 白名单和数据库事务。
+- 验收：OpenAPI、健康检查和 API 集成测试通过；数据库迁移仍由部署流程显式执行。
 
 ## Phase 4：Apple 风格 Web 产品
 

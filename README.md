@@ -35,6 +35,23 @@ OPENAI_MAX_RETRIES=2
 
 架构、来源和项目限制分别见 `ARCHITECTURE.md`、`docs/DATA_SOURCES.md` 和 `PLANS.md`。
 
+## Phase 3 API
+
+API 是核心引擎的同步适配层，默认完全离线运行并将每次运行写入数据库。它不接收或返回模型密钥，也不会根据用户 Prompt 读取本地文件。
+
+```bash
+.venv/bin/uvicorn textile_foundry.api:create_app --factory --host 127.0.0.1 --port 8000
+```
+
+可用端点：
+
+- `GET /healthz`：数据库健康检查。
+- `POST /api/v1/runs`：创建离线分析运行。
+- `GET /api/v1/runs/{run_id}`：读取需求、方案历史、成本和修订记录。
+- `GET /docs`：FastAPI 自动生成的 OpenAPI 文档。
+
+生产环境应先执行 Alembic 迁移，再通过 `DATABASE_URL` 配置数据库；不要让应用启动隐式修改生产 schema。
+
 ## Phase 2 数据库
 
 数据库层使用 SQLAlchemy 2.x、Alembic 和 PostgreSQL；JSON 仍作为可审计 seed。当前环境没有 PostgreSQL 或 Docker，因此默认测试使用同一套迁移在 SQLite 上验证事务、约束、快照和幂等 seed；这不等同于真实 PostgreSQL 已启动验证。
