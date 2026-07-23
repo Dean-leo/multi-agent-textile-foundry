@@ -69,6 +69,28 @@ class RuleBasedRequirementModel:
         )
 
 
+class ResilientRequirementModel:
+    """Use the online model first, with a transparent offline safety net."""
+
+    def __init__(self, primary: RequirementModel) -> None:
+        self.primary = primary
+        self.fallback = RuleBasedRequirementModel()
+
+    def analyze(self, user_request: str) -> ParsedRequirements:
+        try:
+            return self.primary.analyze(user_request)
+        except (ConfigurationError, ModelOutputError, ModelTimeoutError):
+            parsed = self.fallback.analyze(user_request)
+            return parsed.model_copy(
+                update={
+                    "assumptions": [
+                        *parsed.assumptions,
+                        "在线模型输出未通过结构校验，本次使用本地规则兜底；请复核解析结果。",
+                    ]
+                }
+            )
+
+
 class StructuredRequirementModel:
     """Prompt and validate an OpenAI-compatible structured-output runner."""
 
@@ -152,7 +174,7 @@ def build_online_requirement_model(settings: Settings) -> RequirementModel:
         # OpenAI structured-output wrapper sends a provider-specific
         # json_schema response_format that DeepSeek rejects with HTTP 400.
         # Pydantic validation remains the final contract after parsing.
-        return StructuredRequirementModel(
-            model.bind(response_format={"type": "json_object"})
+        return ResilientRequirementModel(
+            StructuredRequirementModel(model.bind(response_format={"type": "json_object"}))
         )
     return StructuredRequirementModel(model.with_structured_output(ParsedRequirements))
