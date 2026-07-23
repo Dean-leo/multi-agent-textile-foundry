@@ -89,6 +89,19 @@ class ResilientRequirementModel:
                     ]
                 }
             )
+        except Exception:
+            # Provider SDKs expose transport/status errors that are not part
+            # of our domain exception hierarchy. Keep the API resilient while
+            # preserving an explicit assumption in the returned result.
+            parsed = self.fallback.analyze(user_request)
+            return parsed.model_copy(
+                update={
+                    "assumptions": [
+                        *parsed.assumptions,
+                        "在线模型请求异常，本次使用本地规则兜底；请复核解析结果。",
+                    ]
+                }
+            )
 
 
 class StructuredRequirementModel:
